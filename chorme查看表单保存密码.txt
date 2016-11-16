@@ -1,0 +1,3 @@
+chrome://settings/passwords   在谷歌浏览器搜索栏直接键入  就可以查看密码
+
+或者按F12，查看密码表单，把type的password的修改text类型；也能显示密码。只要密码保存cookies
