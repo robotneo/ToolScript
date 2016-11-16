@@ -1,0 +1,146 @@
+第一步：安装(git)，直接下载安装！
+第二步：确定是否以前使用过git
+在Administrator@localhost 执行命令：
+
+$ cd ~/.ssh    //检查计算机ssh密钥
+
+如果没有提示:No such file or directory 说明你不是第一次使用git,
+执行下面的操作,清理原有ssh密钥。
+$ ls 
+ config id_rsa id_rsa.pub known_hosts   //目录下出现这几个文件
+$ mkdir key_backup
+$ cp id_rsa* key_backup
+$ rm id_rsa*
+
+获得秘钥：
+
+$ ssh-keygen -t rsa -C "defnngj@gmail.com"//填写你github的email地址，然后一直“回车”ok
+打开本地..\.ssh\id_rsa.pub文件。此文件里面内容为刚才生成的密钥。
+
+第三步：登入github系统
+点击右上角的 Account Settings--->SSH Public keys ---> add another public keys
+把你本地生成的密钥(公钥id_rsa.pub)复制到里面（key文本框中）， 点击 add key 就ok了。
+
+第四步：接着打开git ，测试连接是否成功
+$ ssh -T git@github.com
+如果提示：Hi defnngj You've successfully authenticated, 
+but GitHub does not provide shell access. 说明你连接成功了
+
+第五步：设置用户信息
+$ git config --global user.name "defnngj"//给自己起个用户名最好和github名字一致。
+$ git config --global user.email  "defnngj@gmail.com"//填写自己的邮箱，github邮箱。
+
+在github中找到 Account Settings--->Account Admin ,找到一下信息：
+
+Your API token is e97279836f0d415a3954c1193dba522f ---keep it secret(机密)! 
+Changing your password will
+
+generate a new token
+
+$ git config --global github.user defnngj      //github 上的用户名
+$ git config --global github.token e97279836f0d415a3954c1193dba522f
+
+创建项目：
+1. 回到github首页，点击页面右下角“New Repository”
+
+填写项目信息：
+
+project name: hello world
+
+description : my first project
+
+点击“Create Repository” ； 现在完成了一个项目在github上的创建。
+
+2. 我们需要使用git在本地创建一个相同的项目。
+$ makdir ~/hello-world    //创建一个项目hello-world
+$ cd ~/hello-world    //打开这个项目
+$ git init    //初始化 
+$ touch README
+$ git add README   //更新README文件
+$ git commit -m 'first commit'//提交更新，并注释信息“first commit” 
+$ git remote add origin git@github.com:defnngj/hello-world.git   //连接远程github项目  
+$ git push -u origin master   //将本地项目更新到github项目上去
+
+现在查看github上面的hello world 项目，是不是发现已经将本地中的README文件更新上来了。
+
+关于可能出现的错误：
+1.在执行
+
+$ git remote add origin git@github.com:defnngj/hello-world.git
+
+错误提示：fatal: remote origin already exists.
+
+解决办法：
+
+$ git remote rm origin
+
+然后在执行：$ git remote add origin git@github.com:defnngj/hello-world.git 就不会报错误了
+
+如果输入$ git remote rm origin 还是报错的话，
+error: Could not remove config section 'remote.origin'. 我们需要修改gitconfig文件的内容
+
+找到你的github的安装路径，我的是C:\Users\ASUS\AppData\Local\
+GitHub\PortableGit_ca477551eeb4aea0e4ae9fcd3358bd96720bb5c8\etc
+
+找到一个名为gitconfig的文件，打开它把里面的[remote "origin"]那一行删掉就好了！
+
+2. 在执行
+
+$ git push origin master
+
+错误提示：error:failed to push som refs to.......
+
+解决办法：
+
+$ git pull origin master // 先把远程服务器github上面的文件拉下来，
+再push 上去。
+$ git push origin master
+
+如果出现还报错 fatal: Couldn't find remote ref master或者
+fatal: 'origin' does not appear to be a git repository以及
+fatal: Could not read from remote repository.
+
+则需要重新输入$ git remote add origin git@github.com:djqiang/gitdemo.git
+
+3. 如果输入$ ssh -T git@github.com
+出现错误提示：Permission denied (publickey).因为新生成的key不能加入ssh
+就会导致连接不上github。
+
+解决办法如下：
+
+    1)先输入$ ssh-agent，再输入$ ssh-add ~/.ssh/id_key，这样就可以了。
+
+    2)如果还是不行的话，输入ssh-add ~/.ssh/id_key 命令后出现报错Could not open a connection to your authentication agent.解决方法是key用Git Gui的ssh工具生成，这样生成的时候key就直接保存在ssh中了，不需要再ssh-add命令加入了，其它的user，token等配置都用命令行来做。
+
+    3)最好检查一下在你复制id_rsa.pub
+	
+
+git配置：
+gitconfig配置文件
+
+Git有一个工具被称为git config，它允许你获得和设置配置变量；
+这些变量可以控制Git的外观和操作的各个方面。这些变量可以被存储在三个不同的位置： 
+1./etc/gitconfig 文件：包含了适用于系统所有用户和所有库的值。
+如果你传递参数选项’--system’ 给 git config，它将明确的读和写这个文件。 
+2.~/.gitconfig 文件 ：具体到你的用户。你可以通过传递--global 选项
+使Git 读或写这个特定的文件。
+3.位于git目录的config文件 (也就是 .git/config) ：
+无论你当前在用的库是什么，特定指向该单一的库。每个级别重写前一个级别的值。
+因此，在.git/config中的值覆盖了在/etc/gitconfig中的同一个
+
+配置相关信息：
+
+2.1　当你安装Git后首先要做的事情是设置你的用户名称和e-mail地址。
+	 这是非常重要的，因为每次Git提交都会使用该信息。
+	 它被永远的嵌入到了你的提交中：
+
+　　$ git config --global user.name "John Doe"
+　　$ git config --global user.email johndoe@example.com
+ 
+2.2    你的编辑器(Your Editor)
+
+　　现在，你的标识已经设置，你可以配置你的缺省文本编辑器，
+	Git在需要你输入一些消息时会使用该文本编辑器。缺省情况下，
+	Git使用你的系统的缺省编辑器，这通常可能是vi 或者 vim。
+	如果你想使用一个不同的文本编辑器，例如Emacs，你可以做如下操作：
+　　$ git config --global core.ed
