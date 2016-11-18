@@ -1,0 +1,117 @@
+<一>系统定时任务:
+1)at一次性定时任务
+2)crontab循环定时任务
+3)系统的crontab设置
+4)anacron配置
+
+1)at一次性定时任务>>
+	1》at一次性定时任务(只能执行一次，没有循环的特性):
+		
+		1.确定at服务(一般是必装服务)是否安装:
+		chkconfig --list | grep at(CentOS7以前)
+		CentOS7之后 ，chkconfig命令已经被systemctl命令取代，
+		chkconfig --list | grep atd  ==  systemctl  list-unit-files | grep atd ,
+		查看状态可以用 systemctl  status atd.service
+		
+		2.at服务的启动|停止|重启|状态
+		service atd start|stop|restart|status
+		
+	2》at的访问控制
+		1.如果系统中有/etc/at.allow文件，那么只有写入/etc/at.allow文件(白名单)
+		中的用户可以使用at命令(/etc/at.deny文件会被忽略)
+		2.如果系统中没有/etc/at.allow文件，只有/etc/at.deny文件，那么写入/etc/at.deny
+		(黑名单)中的用户不能使用at命令。对root用户不起作用。
+		3.如果系统中这两个文件都不存在，那么只有root用户可以使用at命令。
+		4.at命令的使用:
+		格式: at [选项] 时间
+		选项: 
+			-m：当at工作完后，无论命令是否有输出，都用email通知执行at命令的用户。
+			-c 工作号：显示该at工作的实际内容。
+		时间: 
+			HH:MM    如：02:30
+			HH:MM YYYY-MM-DD   如：02:30 2016-11-18
+			HH:MM[am|pm][month][date]  如：02:30 Jult 25
+			HH:MM[am|pm]+[minutes|hours|days|weeks]  如：now +5 minutes
+		5.其他at管理命令:
+			1> atq    #查询当前服务器上的at工作
+			2> atrm [工作号]  #删除指定的at任务
+		
+2)crontab循环定时任务>>
+		1》crontab循环定时任务(必须安装的服务，循环执行定时任务):
+			1.确定crond服务是否安装:
+			chkconfig --list | grep crond(CentOS7以前)
+			CentOS7之后 ，chkconfig命令已经被systemctl命令取代，
+			chkconfig --list | grep atd  ==  systemctl  list-unit-files | grep crond ,
+			查看状态可以用 systemctl  status crond.service
+			2.at服务的启动|停止|重启|状态
+			service crond start|stop|restart|status
+		2》访问控制:
+			1.当系统中有/etc/cron.allow文件时，只有写入此文件的用户可以使用crontab命令，
+			没有写入的用户不能使用crontab命令。同样如果有此文件，/etc/cron.deny文件会被忽略
+			，/etc/cron.allow文件的优先级更高。
+			2.当系统中只有/etc/cron.deny文件时，则写入此文件的用户不能使用crontab命令。没有
+			写入此文件用户可以使用crontab命令。
+		3》用户的crontab设置(手工执行)
+			[root@localhost~]# crontab [选项]
+			选项:
+			-e: 编辑crontab定时任务。
+			-l: 查询crontab任务。
+			-r: 删除当前用户所有的crontab任务。
+			crontab -e   #进入crontab编辑界面。会打开vim编辑你的工作。
+			* * * * * 执行的任务(绝对路径)
+			上面五个*的意思是代表具体的时间。
+			说明:
+				第一个"*" : 一个小时当中的第几分钟    范围:0-59
+				第二个"*" : 一天当中的第几小时        范围:0-23
+				第三个"*" : 一个月当中的第几天        范围:1-31
+				第四个"*" : 一个年当中的第几月        范围:1-12
+				第五个"*" : 一个周当中的星期几        范围:0-7(0,7都代表星期日)
+			特殊符号:
+				* 代表任意时间。比如第一个“*”就代表一个小时中每分钟都执行一次的意思。
+				, 代表不连续的时间。比如“0 8,12,16 * * * 命令”，就代表在每天的8点0分，
+					12点0分，16点0分都执行一次命令。
+				- 代表连续的时间范围。比如“0 5 * * 1-6 命令”，代表在周一到周六的凌晨
+					5点0分执行
+				*/n 代表每隔多久执行一次。比如“*/10 * * * * 命令”，代表每隔10分钟就
+					执行一遍命令。
+					
+		4》crontab配置:
+			系统的定时任务:
+			"crontab -e" 是每个用户执行的命令，也就是说不同的用户身份可以执行自己的定时任务。
+			可是有些定时任务需要系统执行，这是我们就需要编辑/etc/crontab这个配置文件。
+			第一种:是把需要定时任务时执行的脚本复制到
+					/etc/cron.{daily,weekly,monthly}目录中的任意一个。
+			第二种:是直接修改/etc/crontab配置文件
+
+3)anacron(自动检测定时任务的执行)配置:
+	解释: anacron是用来保证在系统关机的时候错过的定时任务，可以在系统开机之后再执行。
+	anacron检测周期:
+	1>:anacron会使用一天，七天，一个月作为检测周期。
+	2>:在系统的/var/spool/anacron/目录中存在cron.{dauly,weekly,monthly}文件。
+		用于记录上次执行cron的时间。
+	3>:和当期时间作比较，如果两个时间的差值超过anacron的指定时间差值，证明有
+		cron任务被漏执行。
+	CentOS6.x以前的版本中，/etc/cron.{daily,weekly,monthly}这些目录即会被cron调用，也会被
+	anacron调用，容易重复执行。
+	CentOS6.x中则只会被anacron调用，避免重复执行。
+	CentOS6.x中，anacron不再是服务，而是系统命令。
+	
+	anacron的配置文件:
+		vim /etc/anacrontab
+		
+		# /etc/anacrontab: configuration file for anacron
+		# See anacron(8) and anacrontab(5) for details.
+
+		SHELL=/bin/sh
+		PATH=/sbin:/bin:/usr/sbin:/usr/bin
+		MAILTO=root
+		# the maximal random delay added to the base delay of the jobs
+		RANDOM_DELAY=45    # 最大随机延迟
+		# the jobs will be started during the following hours only
+		START_HOURS_RANGE=3-22   # anacron的执行时间范围是3:00-22:00
+
+		#period in days   delay in minutes   job-identifier   command
+		1       5       cron.daily              nice run-parts /etc/cron.daily
+		7       25      cron.weekly             nice run-parts /etc/cron.weekly
+		@monthly 45     cron.monthly            nice run-parts /etc/cron.monthly
+	  # 天数  强制延迟(分) 工作名称					实际执行命令
