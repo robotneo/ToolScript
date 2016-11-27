@@ -1,0 +1,51 @@
+用户: 使用操作系统的人
+用户组: 在本系统具有相同权限的一组用户
+配置文件信息:
+	/etc/group	存储当前系统中所有用户组信息
+	Group:		x:			123: 	abc,def,xyz
+	组名称:	组密码占位符:	组编号:	组中用户名列表
+	/etc/gshadow	存储当前系统中所有用户组的密码信息
+	Group:	*		:		: 	abc,def,xyz
+	组名称:组密码	:组管理者: 组中用户名列表
+	/etc/passwd		存储当前系统中所有用户的信息
+	/etc/shadow		存储当前系统中所有用户的密码信息
+	
+	命令:
+	groupadd 组名	创建用户组
+	groupmod -n 修改名	修改用户组名
+	groupmod -g 主编号 组名 	修改用户组编号
+	groupadd -g 888 boss 	指定组的编号为888，组名boss
+	groupdel 用户组名	删除用户组
+	
+	useradd -g sexy sdf		添加用户，并指定sexy用户组
+	useradd -d /home/xxx yang	创建用户，并指定个人文件夹
+	usermod	-c daguo sdf	修改用户注释-c
+	usermod -l cls sdf	修改用户名为cls,sdf为老的用户名
+	userdel jzmu  删除用户
+	userdel -r jzmu		删除用户并删除个人文件夹
+	
+	touch /etc/nologin		禁止root用户登录服务器(服务器维护)
+	
+进阶命令:
+	passwd -l cls(用户名)	锁定账户
+	passwd -u cla(用户名)	解锁账户
+	passwd -d cla(用户名)	无密码登入，清除密码
+	
+	一个用户可以同时属于多个组
+		一个主要组 多个附属组
+	gpasswd	-a cls boss(附属组) 	添加附属组
+	创建的文件一般属于主要组，如果需要在附属组，那么就要谢欢自己的组。
+	newgrp boss		切换当前组身份切换到附属组，就需要组密码
+	gpasswd -d cls boss 	把cls用户从boss组去除
+	useradd -g group1 -G group2,group3...	 指定当前用户主要组合附属组
+	gpasswd imocc 	改变用户组密码
+	
+	su 用户名	切换当前的用户身份
+	whoami 	显示当前等于用户名
+	id 用户名	显示指定用户名信息，用户名。主要组编号以及名称cushuzu 
+	groups 用户名	显示用户所在的所有组
+	chfn 用户名		设置用户资料，依次输入用户资料
+	finger 用户名	显示用户详细资料
+	
+	
+	
