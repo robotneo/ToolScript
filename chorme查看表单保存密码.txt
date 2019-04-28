@@ -25,48 +25,48 @@ chrome://crashes/       # 停用启用崩溃报告，如果启用的话将使用情况统计信息和崩溃
 
 chrome://credits/       # 查看第三方软件许可证，除此之外还可以查看某个软件的主页（源码），点击下图所示的show license试试
 
-chrome://devices/? ? 查看设备，比如链接的打印机
+chrome://devices/   # 查看设备，比如链接的打印机
 
 chrome://dns/       # 查看DNS记录，DNS记录查看，如果有网络故障记得先来找他，chrome 还会定时更新hosts的DNS
 
 chrome://downloads/     # 查看下载文件，查看下载文件的记录。和菜单栏点击查看“下载内容”效果一样
 
 
-chrome://extensions/? ? ?# 查看扩展程序，Chrome最强大的地方就在于有各式各样的扩展程序。扩展程序主要是可以提高咱们的工作效率的。
+chrome://extensions/    # 查看扩展程序，Chrome最强大的地方就在于有各式各样的扩展程序。扩展程序主要是可以提高咱们的工作效率的。
 
-chrome://plugins/? ? ? # 停用启用相关插件
+chrome://plugins/   # 停用启用相关插件
 
-chrome://history/? ? ? # 查看访问的历史记录
+chrome://history/   # 查看访问的历史记录
 
-chrome://flash/? ? ? # 关于flash插件的详细信息
+chrome://flash/     # 关于flash插件的详细信息
 
-chrome://gcm-internals/? ? ?# 消息推送服务，Google Cloud Messaging for Android 是谷歌新推出的云推送消息服务，简称 GCM。该服务可帮助你将数据从服务端发送至应用。
+chrome://gcm-internals/     # 消息推送服务，Google Cloud Messaging for Android 是谷歌新推出的云推送消息服务，简称 GCM。该服务可帮助你将数据从服务端发送至应用。
 
-chrome://indexeddb-internals/? ? ? # 查看 html5的本地存储，列出使用你本地存储的 html5站点，然后你可以“强制清除”它，或者“下载”它
+chrome://indexeddb-internals/       # 查看 html5的本地存储，列出使用你本地存储的 html5站点，然后你可以“强制清除”它，或者“下载”它
 
-chrome://inspect/? ? ?# 查看开发工具，这个对于开发人员来说应该最体贴的功能啦，包括设备、检查页面 、扩展、App、共享、服务等选项卡。特别对于调试APP的webview页面（h5嵌套页面）非常方便。
+chrome://inspect/       # 查看开发工具，这个对于开发人员来说应该最体贴的功能啦，包括设备、检查页面 、扩展、App、共享、服务等选项卡。特别对于调试APP的webview页面（h5嵌套页面）非常方便。
 
-chrome://media-internals/? ? ?# 查看媒体内部数据，用来调试在线播放的一些数据，比如测试 音频流。
+chrome://media-internals/       # 查看媒体内部数据，用来调试在线播放的一些数据，比如测试 音频流。
 
-chrome://memory-redirect/? ? ?# 查看内存信息，查看 chrome 各个 网页标签、插件 消耗的内存
+chrome://memory-redirect/       # 查看内存信息，查看 chrome 各个 网页标签、插件 消耗的内存
 
 chrome://nacl/      # 本地客户端 Native Client 环境信息，包括浏览器、操作系统、插件等
 
-chrome://net-internals/? ? ?# Chrome的抓包工具内容挺多的，还有查看HSTS的选项卡
+chrome://net-internals/     # Chrome的抓包工具内容挺多的，还有查看HSTS的选项卡
 
-chrome://newtab/? ? ?# 打开新的标签
+chrome://newtab/    # 打开新的标签
 
-chrome://omnibox/? ? ?# 智能地址栏，我只能说这个大强大了，太实用了。你用用就知道它的厉害了
+chrome://omnibox/   # 智能地址栏，我只能说这个大强大了，太实用了。你用用就知道它的厉害了
 
 chrome://predictors/    # URl输入命中率，结合 omnibox 一起使用看看的智能程序。
 
-chrome://policy/? ? # 编辑策略
+chrome://policy/    # 编辑策略
 
-chrome://print/? ?# 调用打印机
+chrome://print/     # 调用打印机
 
-chrome://profiler/? ?# 分析器
+chrome://profiler/      # 分析器
 
-chrome://serviceworker-internals/? ? # 调试服务
+chrome://serviceworker-internals/       # 调试服务
 
 chrome://quota-internals/   # 显示磁盘详细可用空间以及各个网站的使用配额
 
@@ -84,4 +84,4 @@ chrome://translate-internals/   # 内部翻译器
 
 chrome://user-actions/      # 监听用户行为，监听用户行为，比如你的鼠标点击事件，访问url事件都会被记录下来。
 
-chrome://settings/? ? # 设置
+chrome://settings/      # 设置
