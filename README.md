@@ -4,4 +4,4 @@
 		
 		包括各个方面，希望能帮助我！
 		
-		编程语言，VPN，hosts文件，Linux，杂谈技巧，软件分享！
+		Linux, Python, PowerShell, 杂谈技巧, 软件分享！
